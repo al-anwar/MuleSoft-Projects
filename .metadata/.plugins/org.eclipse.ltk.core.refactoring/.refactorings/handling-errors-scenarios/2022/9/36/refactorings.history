@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;handling-errors-scenarios/src/main/mule/handling-errors.xml&apos; to &apos;handling-errors-scenarios.xml&apos;" description="Rename resource &apos;handling-errors.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/mule/handling-errors.xml" name="handling-errors-scenarios.xml" stamp="1662042271858" updateReferences="true"/>
+</session>

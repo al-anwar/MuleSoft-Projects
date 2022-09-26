@@ -1,0 +1,19 @@
+mysql:
+ host: "localhost"
+ password: "rootmysql"
+ user: "root"
+ db: "mulesoft"
+ port: "3306"
+ 
+mysql_northernstar:
+ host: "localhost"
+ password: "rootmysql"
+ user: "root"
+ db: "northernstar"
+ port: "3306"
+ 
+postgresql_northernstar:
+  url: "jdbc:postgresql://localhost:5432/northernstar"
+  password: "postgres"
+  user: "postgres"
+  driver_name: "org.postgresql.Driver"

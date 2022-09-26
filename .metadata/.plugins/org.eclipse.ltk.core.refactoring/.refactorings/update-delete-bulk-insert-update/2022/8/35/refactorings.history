@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;update-delete-bulk-insert-update/src/main/mule/update-delete-bulk-insert-update.xml&apos; to &apos;bulk-insert-update.xml&apos;" description="Rename resource &apos;update-delete-bulk-insert-update.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/mule/update-delete-bulk-insert-update.xml" name="bulk-insert-update.xml" stamp="1661557861752" updateReferences="true"/>
+</session>

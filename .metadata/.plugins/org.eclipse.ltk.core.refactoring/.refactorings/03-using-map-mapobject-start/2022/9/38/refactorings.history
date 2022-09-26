@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 elements to &apos;dataweave-topics/src/main/resources/examples&apos;&#x0D;&#x0A;- Original project: &apos;03-using-map-mapobject-start&apos;&#x0D;&#x0A;- Destination element: &apos;dataweave-topics/src/main/resources/examples&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     states.xml&#x0D;&#x0A;     cities.xml" description="Copy files" destination="=dataweave-topics/src\/main\/resources&lt;examples" element1="src/main/resources/examples/states.xml" element2="src/main/resources/examples/cities.xml" files="2" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1663211459687" units="0" version="1.0"/>
+</session>

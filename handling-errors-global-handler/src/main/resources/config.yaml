@@ -1,0 +1,13 @@
+
+mysql:
+ host: "localhost"
+ password: "rootmysql"
+ user: "root"
+ db: "northernstar"
+ port: "3306"
+ 
+postgresql:
+  url: "jdbc:postgresql://localhost:5432/northernstar"
+  password: "postgres"
+  user: "postgres"
+  driver_name: "org.postgresql.Driver" 

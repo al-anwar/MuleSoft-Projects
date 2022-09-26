@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="cb75f224-4018-4bce-8514-83246eb59558" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="dw-basicsFlow" doc:id="ceadfa49-f256-4061-91bd-af95992798bf" >
+		<http:listener doc:name="Listener" doc:id="c067c7e8-90df-4659-a38f-de8c47864163" config-ref="HTTP_Listener_config" path="/test"/>
+		<ee:transform doc:name="Transform Message" doc:id="6a958fc8-9af9-46b7-b1b5-4e417de16127" >
+			<ee:message >
+				<ee:set-payload resource="productxml.dwl" />
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="pname.dwl" variableName="pname" />
+				<ee:set-variable resource="discount.dwl" variableName="discount" />
+			</ee:variables>
+		</ee:transform>
+	</flow>
+</mule>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="scatter-gatherFlow" doc:id="f1f74e26-9e6c-40db-b528-a9b0357d81e2" >
+		<scheduler doc:name="Scheduler" doc:id="b16556c5-4c15-48db-a79e-dcd3e4434652" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="10" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="2d8e2cdf-2a09-419a-b082-d7c6ae0246e7" >
+			<route >
+				<set-payload value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"firstName": "Samiya"&#10;	&#10;}]' doc:name="payload1" doc:id="d2ba1ab1-a7cd-432b-9186-5aaeba36bf01" />
+			</route>
+			<route >
+				<set-payload value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"middleName": "Anwar"&#10;	&#10;}]' doc:name="payload2" doc:id="364356fb-85bf-441a-bed4-725d86d00e50" />
+			</route>
+			<route >
+				<set-payload value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"lastName": "Amir"&#10;	&#10;}]' doc:name="payload3" doc:id="03cf1642-39a8-4000-ad60-a1b176a808ef" />
+			</route>
+		</scatter-gather>
+		<logger level="INFO" doc:name="Logger" doc:id="5c89a0de-c084-4df9-8bc1-c0071b7e22d7" />
+	</flow>
+</mule>

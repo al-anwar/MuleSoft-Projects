@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;merge-first-successful/src/main/mule/merge-first-successful.xml&apos; to &apos;first-successful.xml&apos;" description="Rename resource &apos;merge-first-successful.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/mule/merge-first-successful.xml" name="first-successful.xml" stamp="1661385966951" updateReferences="true"/>
+</session>

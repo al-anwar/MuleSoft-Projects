@@ -1,0 +1,115 @@
+!SESSION 2022-09-22 15:50:42.078 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=11.0.16
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+This is a continuation of log file C:\studio-workspace\.metadata\.bak_0.log
+Created Time: 2022-09-22 15:51:28.592
+
+!ENTRY org.mule.tooling.ui.contribution.munit 1 1 2022-09-22 15:51:28.595
+!MESSAGE Creating MUnit temporary folder in C:\Users\arwan\AppData\Local\Temp\munit-temp-dir
+
+!ENTRY org.eclipse.egit.ui 2 0 2022-09-22 15:51:45.097
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\arwan'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.mule.tooling.core 1 0 2022-09-22 15:52:16.262
+!MESSAGE Mule Version 4.4.0-20220824, was mapped to Tooling Version 4.4.0-20220824
+
+!ENTRY org.mule.tooling.core 1 0 2022-09-22 15:53:40.508
+!MESSAGE Started tooling v[4.4.0] with timeout [90s] at path:
+C:\AnypointStudio\configuration\org.eclipse.osgi\671\data\.runtimes\tooling-pjb2to6x
+
+!ENTRY org.eclipse.jface 2 0 2022-09-22 19:41:07.494
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2022-09-22 19:41:07.494
+!MESSAGE A conflict occurred for CTRL+F:
+Binding(CTRL+F,
+	ParameterizedCommand(Command(org.eclipse.ui.edit.findReplace,Find and Replace,
+		Find and replace text,
+		Category(org.eclipse.ui.category.edit,Edit,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@44bd3dc5,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+F,
+	ParameterizedCommand(Command(org.mule.tooling.ui.dfl.contribution.commands.searchCommand,Find/Replace,
+		Find/Replace,
+		Category(org.mule.tooling.ui.commandcategory,org.mule.tooling.ui.commandcategory,Category for menu commands,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@77ea06bb,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.mule.tooling.contexts.mulePropertiesEditor,,,system)
+Binding(CTRL+F,
+	ParameterizedCommand(Command(org.mule.tooling.commands.focusSearchCommand,Focus Search Command,
+		Focus Search in Palette,
+		Category(org.mule.tooling.ui.commandcategory,org.mule.tooling.ui.commandcategory,Category for menu commands,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@1e64a724,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.mule.tooling.contexts.mulePropertiesEditor,,,system)
+
+!ENTRY org.eclipse.egit.core 4 0 2022-09-22 23:39:46.450
+!MESSAGE An exception occurred during push on URI https://github.com/al-anwar/MuleSoft-Projects.git: https://github.com/al-anwar/MuleSoft-Projects.git: not authorized
+!STACK 0
+org.eclipse.jgit.errors.TransportException: https://github.com/al-anwar/MuleSoft-Projects.git: not authorized
+	at org.eclipse.jgit.transport.TransportHttp.connect(TransportHttp.java:685)
+	at org.eclipse.jgit.transport.TransportHttp.connect(TransportHttp.java:627)
+	at org.eclipse.jgit.transport.TransportHttp.openPush(TransportHttp.java:541)
+	at org.eclipse.jgit.transport.PushProcess.execute(PushProcess.java:138)
+	at org.eclipse.jgit.transport.Transport.push(Transport.java:1385)
+	at org.eclipse.egit.core.op.PushOperation.run(PushOperation.java:254)
+	at org.eclipse.egit.ui.internal.push.ConfirmationPage$2.run(ConfirmationPage.java:204)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+
+!ENTRY org.mule.tooling.ui.contribution.munit 1 1 2022-09-23 00:27:41.655
+!MESSAGE Deleting MUnit temporary folder in C:\Users\arwan\AppData\Local\Temp\munit-temp-dir
+!SESSION 2022-09-25 21:46:17.446 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=11.0.16
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.jface 2 0 2022-09-25 21:46:54.266
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2022-09-25 21:46:54.266
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@3085befb,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@62264d4f,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.mule.tooling.ui.contribution.munit 1 1 2022-09-25 21:47:00.284
+!MESSAGE Creating MUnit temporary folder in C:\Users\arwan\AppData\Local\Temp\munit-temp-dir
+
+!ENTRY org.eclipse.egit.ui 2 0 2022-09-25 21:47:13.770
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\arwan'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.mule.tooling.core 1 0 2022-09-25 21:47:40.129
+!MESSAGE Mule Version 4.4.0-20220824, was mapped to Tooling Version 4.4.0-20220824
+
+!ENTRY org.mule.tooling.core 1 0 2022-09-25 21:48:54.447
+!MESSAGE Started tooling v[4.4.0] with timeout [90s] at path:
+C:\AnypointStudio\configuration\org.eclipse.osgi\671\data\.runtimes\tooling-pjb2to6x

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="59d350fd-56a6-41f5-8534-cff138b3d8f7" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="4a18fa70-ddd6-4ec0-ba17-3c4b2569cb55" file="config.yaml" />
+	<db:config name="MySQL_Database_Config" doc:name="Database Config" doc:id="d85ce34c-a360-44c2-b558-4b7ca70bca49" >
+		<db:my-sql-connection host="${mysql.host}" port="${mysql.port}" user="${mysql.user}" password="${mysql.password}" database="${mysql.db}" />
+	</db:config>
+	<file:config name="bulk-insert-File_Config" doc:name="File Config" doc:id="11c871ef-3a80-4800-97a7-d0ae17fcd7bb" >
+		<file:connection workingDir="C:\MyMuleSoftRepo\BulkOperation\bulk-insert-input" />
+	</file:config>
+	<file:config name="bulk-update-File_Config" doc:name="File Config" doc:id="928d9ae4-b004-41f3-8bfa-1478dbd04dce" >
+		<file:connection workingDir="C:\MyMuleSoftRepo\BulkOperation\bulk-update-input" />
+	</file:config>
+	<flow name="bulk-insert" doc:id="2f92e655-1694-4a51-9d5a-0a5baf62fd6b" >
+		<file:listener doc:name="On New or Updated File" doc:id="7b4d4122-0b94-4331-ac7c-ab47c93b5125" config-ref="bulk-insert-File_Config" autoDelete="true" moveToDirectory="C:\MyMuleSoftRepo\BulkOperation\bulk-insert-backup" outputMimeType="application/csv">
+			<scheduling-strategy >
+				<fixed-frequency frequency="30" timeUnit="SECONDS" />
+			</scheduling-strategy>
+			<file:matcher filenamePattern="*.csv" />
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="1c1b493e-2569-4b4f-864e-af43d7fe2dea" />
+		<ee:transform doc:name="to JSON" doc:id="8d0027a5-cc32-4ce4-960c-67e08e722ddd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:bulk-insert doc:name="Bulk insert" doc:id="f6f33b7f-89b4-42fb-ac6d-600d412111dd" config-ref="MySQL_Database_Config">
+			<db:sql ><![CDATA[INSERT INTO diamonds (productID, carat, cut, color, clarity, depth, `table`, price, x , y, z)
+VALUES (:productID, :carat, :cut, :color, :clarity, :depth, :table, :price, :x , :y, :z);]]></db:sql>
+		</db:bulk-insert>
+		<logger level="INFO" doc:name="Logger" doc:id="503add85-0c58-4e99-8855-5ffbef65b774" message="Data inseted into database successfully!"/>
+	</flow>
+	<flow name="bulk-update" doc:id="9a10c68f-3448-493e-b18c-0f7a5dd4b9d1" >
+		<file:listener doc:name="On New or Updated File" doc:id="a9fc0412-745c-4da5-81e6-b62d0f5f3ee8" config-ref="bulk-update-File_Config" autoDelete="true" moveToDirectory="C:\MyMuleSoftRepo\BulkOperation\bulk-update-backup" outputMimeType="application/csv">
+			<scheduling-strategy >
+				<fixed-frequency frequency="10" timeUnit="SECONDS" />
+			</scheduling-strategy>
+			<file:matcher filenamePattern="*.csv" />
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="b2b070ad-326d-44d8-876b-fe4dea052e85" />
+		<ee:transform doc:name="to JSON" doc:id="d5e316a0-8ba8-4283-934f-10fe9cfc1286" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<db:bulk-update doc:name="Bulk update" doc:id="6e761b45-6370-4d48-a141-a7820733217c" config-ref="MySQL_Database_Config">
+			<db:sql ><![CDATA[UPDATE diamonds 
+SET price = :price
+WHERE
+productID = :productID]]></db:sql>
+		</db:bulk-update>
+		<logger level="INFO" doc:name="Logger" doc:id="32b1cf1c-1631-4113-90da-86d709783544" message="Table updated successfully!"/>
+	</flow>
+</mule>

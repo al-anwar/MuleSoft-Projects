@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="zip-unzip-flattenFlow" doc:id="8f814af4-e37f-4762-bd85-cd8d00d56e8c" >
+		<ee:transform doc:name="Transform Message" doc:id="2ea4dc7a-fc8a-402b-99c4-16c724f5a022" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[output application/dw
+
+var countries=["india","uk","usa","pakistan","italy"]
+var capitals=["delhi","london","washington","islamabad"]
+
+---
+
+unzip(zip(countries,capitals))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

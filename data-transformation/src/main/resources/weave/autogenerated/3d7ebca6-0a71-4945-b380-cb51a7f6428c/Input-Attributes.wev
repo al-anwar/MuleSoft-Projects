@@ -1,0 +1,14 @@
+%dw 2.0
+
+type auto_3d7ebca6_0a71_4945_b380_cb51a7f6428c_Input_Attributes = {|
+  timestamp?: DateTime {"typeId": "java.time.LocalDateTime"}, 
+  name: String, 
+  size: Number, 
+  regularFile?: Boolean {"typeId": "boolean"}, 
+  directory?: Boolean {"typeId": "boolean"}, 
+  symbolicLink?: Boolean {"typeId": "boolean"}, 
+  path: String, 
+  fileName: String
+|} {"typeAlias": "FtpFileAttributes",
+"typeId": "org.mule.extension.ftp.api.ftp.FtpFileAttributes"}
+

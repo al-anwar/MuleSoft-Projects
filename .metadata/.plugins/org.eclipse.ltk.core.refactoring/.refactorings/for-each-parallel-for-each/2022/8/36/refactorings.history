@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;for-each-parallel-for-each/src/main/mule/quiz-for-each-parallel-for-each.xml&apos; to &apos;for-each-parallel-for-each.xml&apos;" description="Rename resource &apos;quiz-for-each-parallel-for-each.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/mule/quiz-for-each-parallel-for-each.xml" name="for-each-parallel-for-each.xml" stamp="1661796995647" updateReferences="true"/>
+</session>

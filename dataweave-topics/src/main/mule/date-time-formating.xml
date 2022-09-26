@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="dw-typesFlow" doc:id="0d0bbed0-ea1e-4729-a345-32e8f69fabae" >
+		<ee:transform doc:name="Transform Message" doc:id="870cc673-1ca9-4304-ad63-93ba253ca6e2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml encoding="UTF-8"
+
+var timeNow = now() as Date
+
+//type MytimeFormat = String {format: "HH:mm"}
+
+type MyDateFormat = String {format: "MM-dd"}
+
+ns myns http://www.way2learnonline.com/mytypes
+---
+
+{
+	myns#users:
+	{
+		user: "Jemal" as CData,
+		age: 34 as CData,
+		today: now() as MyDateFormat
+		//localTime: now() as LocalTime
+	}
+}
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

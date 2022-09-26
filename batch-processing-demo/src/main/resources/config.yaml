@@ -1,0 +1,9 @@
+mysql:
+ host: "localhost"
+ password: "rootmysql"
+ user: "root"
+ db: "mulesoft"
+ port: "3306"
+ 
+
+ 

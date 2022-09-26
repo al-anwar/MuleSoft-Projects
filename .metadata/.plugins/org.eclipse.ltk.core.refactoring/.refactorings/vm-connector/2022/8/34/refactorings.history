@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;vm-connector/src/main/mule/publish-subscribe.xml&apos; to &apos;vm-connector.xml&apos;" description="Rename resource &apos;publish-subscribe.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/mule/publish-subscribe.xml" name="vm-connector.xml" stamp="1661012699675" updateReferences="true"/>
+</session>

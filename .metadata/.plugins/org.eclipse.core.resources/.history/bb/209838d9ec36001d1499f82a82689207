@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="try-fail-logFlow" doc:id="01ecb6bd-c093-4a7f-9188-be38466cb09d" >
+		<http:listener doc:name="Listener" doc:id="fe74951c-4ca0-4807-8313-0ef800baf601" path="/try" config-ref="HTTP_Listener_config"/>
+		<ee:transform doc:name="Transform Message" doc:id="390d2c9c-9767-430f-9607-cba6e854e996" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/dw
+
+import * from dw::Runtime
+
+fun getAllStatesFromFile(inputFileName:String) = 
+
+ do {
+ 	
+ 	var tryResult = try( () -> readUrl ("classpath://" ++ inputFileName, "application/xml"))
+ 	---
+ 	
+ 	tryResult match {
+ 		
+ 		case myoutput if (myoutput.success ~= false) -> 
+ 		     log("First try unsuccessful ", try(()-> readUrl ("classpath://examples/" ++ inputFileName, "application/xml")))
+ 		      match {
+ 		      	case myresult if (myresult.success ~=false ) -> 
+ 		      	     log("Second try unsuccessful ", fail("There is no file. First Error " ++ write(myoutput.error) ++ "Second Error "++ write(myresult.error))
+ 		      	     	
+ 		      	     )
+ 		      	else -> $.result
+ 		      }
+ 		else -> $.result
+ 	}
+ }
+          
+
+---
+
+log("Hello", getAllStatesFromFile("states.xml"))
+
+// getAllStatesFromFile(attributes.queryParams.file as String)
+
+// getStateDetailsByName("California")
+
+
+/* 
+fun getStateDetailsByName(name) = 
+
+     do {
+	    var statesXml = getAllStatesFromFile("states.xml")
+	    ---
+	    statesXml.states.*state[?($.@name ~= name)].@[0]
+	    
+       }
+       
+*/]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f25650a6-6712-431d-8d99-f0031739f52b" >
+				<set-payload value='#["Inside on error continue " ++ (payload)]' doc:name="Set Payload" doc:id="7c5f5ab5-36cb-47cc-bd10-134212179db1" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>

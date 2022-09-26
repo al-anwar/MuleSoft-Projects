@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;batch-processing-demo/src/main/mule/batch-job.xml&apos; to &apos;batch-processing-demo.xml&apos;" description="Rename resource &apos;batch-job.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/mule/batch-job.xml" name="batch-processing-demo.xml" stamp="1661904703293" updateReferences="true"/>
+</session>

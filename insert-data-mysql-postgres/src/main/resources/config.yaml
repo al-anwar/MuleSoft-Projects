@@ -1,0 +1,13 @@
+mysql:
+ host: "localhost"
+ password: "rootmysql"
+ user: "root"
+ db: "mulesoft"
+ port: "3306"
+ 
+postgresql:
+  url: "jdbc:postgresql://localhost:5432/w3schools"
+  password: "rootmaster"
+  user: "postgres"
+  driver_name: "org.postgresql.Driver"
+ 

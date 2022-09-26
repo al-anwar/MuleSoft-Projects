@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="using-map-mapobjectFlow" doc:id="cb964128-07ac-4c82-8e08-cbd7fae997c3" >
+		<ee:transform doc:name="Transform Message" doc:id="5053a72b-a84f-446a-9df9-ba76672dabdd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[output application/dw
+
+ns myns http://way2learnonline.com/domain
+
+fun getImages(images)= {
+		(images map {
+			img: $
+		}
+		)
+	}
+
+var products= payload.products.*product map (item,index)-> {
+	'product':{
+		productId: item.@productId,
+	name: item.name  ,
+	brandName: item.brandName,
+	originalPrice: item.originalPrice as Number,
+	offerValidUntil: item.offer.offerValidUntil as Date,
+	(images: getImages(item.images.*image)) if item.images?
+	}
+}
+
+var sortedProducts = products orderBy -$.product.originalPrice
+
+fun convertKeysToUpper(obj) =
+ if (typeOf(obj) == Object)
+    obj mapObject (V,K,I) -> {
+    	(upper(K)) : convertKeysToUpper(V)
+    }
+    
+ else if (typeOf(obj) == Date)
+    obj as String { format: "MM-dd"}
+ else if (typeOf(obj) == Number)
+    obj as Number { format: "#, ###.00"}
+ else
+    obj
+    
+
+fun convertUsingMatch(obj)=
+
+obj match {
+	case is Date -> obj as  String {format: "MMM-dd"}
+	case is String -> obj as String
+	case is Number -> obj as  Number {format:"#,###.00"}
+	case myobj is Object -> myobj mapObject (V,K,I) -> {
+    	(upper(K)) : convertKeysToUpper(V)
+    	
+    	}
+	else -> "Incorrect Data"
+    }
+---
+
+
+convertUsingMatch(product: { (products) })
+
+// convertUsingMatch(products:{(products)})
+
+// products filter $.product.brandName == "Apple"
+
+// filter(products, (item, index) -> item.product.brandName == "Apple")
+
+/*
+ fun convertKeysToUpper(obj)=
+if(typeOf(obj) == Object)
+	obj mapObject (V,K,I) -> {
+		(upper(K)) : convertKeysToUpper(V)
+	}
+else if(typeOf(obj) == Date)
+  obj as String {format: "MMM-dd"}
+else if(typeOf(obj)== Number)
+ obj as Number {format:"#,###.00"}
+else 
+obj
+
+
+fun convertUsingMatch(obj)=
+
+obj match {
+	case is Date -> obj as  String {format: "yy-MMM-dd"}
+	case is String -> obj as String
+	case is Number -> obj as  Number {format:"#,###.00"}
+	case myobj is Object -> myobj mapObject (V,K,I) -> {
+		(upper(K)) : convertUsingMatch(V)
+	}
+	else -> "Incorrect Data"
+}
+ 
+ */]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c528f00e-96be-4ba6-8d26-322595590ef7" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="request-formatsFlow" doc:id="f74ca062-bc73-49ad-b322-b02961f5dbab" >
+		<http:listener doc:name="/GET" doc:id="c1ae8e3c-d933-4f75-a7c5-83dbd75ecbe1" config-ref="HTTP_Listener_config" path="requestformats"/>
+		<set-variable value="#[attributes.queryParams.format]" doc:name="save query parameter " doc:id="e1d82b9e-c68f-4dd8-868c-7a6108c4b007" variableName="queryParamsDataFormat"/>
+		<set-variable value="#[attributes.headers.'content-type']" doc:name="save header content-type" doc:id="8e4fea75-42e6-4a39-9a7a-452745a9a125" variableName="headerDataFormat"/>
+		<ee:transform doc:name="requested data format" doc:id="7be93280-35be-4eff-ad19-33cbb55226e1" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="requested_data_format" ><![CDATA[%dw 2.0
+output application/json
+---
+if (isEmpty(vars.queryParamsDataFormat)==true)
+   splitBy(vars.headerDataFormat, '/')[1]
+else
+   vars.queryParamsDataFormat]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<file:read doc:name="read XLSX data" doc:id="f0f56fd3-398b-4366-a9ab-17ed0caa6c1b" path="C:\MyMuleSoftRepo\RequestedDataFormat\airports.xlsx" outputMimeType="application/xlsx"/>
+		<choice doc:name="Choice" doc:id="49169bc1-7962-4b93-bda0-a145ed7557ce" >
+			<when expression='#[vars.requested_data_format == "csv"]'>
+				<ee:transform doc:name="to CSV" doc:id="0d47d8de-3f72-4e59-992f-144a1d2114bd" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/csv
+---
+payload.airports]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<when expression='#[vars.requested_data_format == "json"]'>
+				<ee:transform doc:name="to JSON" doc:id="7ac317d3-2b64-41fc-8c33-c3c39446b894" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.airports]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<when expression='#[vars.requested_data_format == "xml"]'>
+				<ee:transform doc:name="to XML" doc:id="0451a2b6-f5c7-4e35-8020-c84ebb2166c1" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+{
+	"airports":
+	
+	{
+		
+	"data": payload.airports
+		
+	}
+	
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<when expression="#[isEmpty(vars.requested_data_format)]">
+				<ee:transform doc:name="to JSON when no format specified" doc:id="3314bae6-7bce-49c1-8fcf-578ee570179d" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.airports]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="7a5a1909-fb14-453f-9543-6591fa1b0209" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": vars.requested_data_format default " " ++ " is not supported data format"
+	
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="Logger" doc:id="8b268f29-c7f8-4f44-99d6-7889f5f47b1f" />
+	</flow>
+</mule>

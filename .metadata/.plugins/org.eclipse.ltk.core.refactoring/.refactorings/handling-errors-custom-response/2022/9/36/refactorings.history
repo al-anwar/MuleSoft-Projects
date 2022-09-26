@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;handling-errors-custom-response/src/main/mule/handling-errors-override-response.xml&apos; to &apos;handling-errors-custom-response.xml&apos;" description="Rename resource &apos;handling-errors-override-response.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/mule/handling-errors-override-response.xml" name="handling-errors-custom-response.xml" stamp="1662169437369" updateReferences="true"/>
+</session>

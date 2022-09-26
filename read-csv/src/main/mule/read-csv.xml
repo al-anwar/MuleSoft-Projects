@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="47513d50-edb4-47fb-9a88-8afb51612e55" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="read-csvFlow" doc:id="dbe985b8-779e-4509-b2ae-f7890b8a8d68" >
+		<http:listener doc:name="Listener" doc:id="0e47b33d-a9b0-467d-93af-39c785a556f8" config-ref="HTTP_Listener_config" path="readcsv"/>
+		<file:read doc:name="Read CSV" doc:id="1eed374b-ac13-4f90-a280-800a7f26ebb5" path="C:\Users\arwan\Desktop\FishCourse\Data\airports.csv" outputMimeType="application/csv"/>
+		<ee:transform doc:name="Transform Message" doc:id="7b47c883-de36-47ce-94d1-45504f31c39b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="dc465389-b4b8-43b0-b7d0-6272623506fe" message="I have been invoked!"/>
+	</flow>
+</mule>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;integrating-external-apis/src/main/mule/dynamic-queryparams-request.xml&apos; to &apos;integrating-external-apis.xml&apos;" description="Rename resource &apos;dynamic-queryparams-request.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/mule/dynamic-queryparams-request.xml" name="integrating-external-apis.xml" stamp="1661003953060" updateReferences="true"/>
+</session>

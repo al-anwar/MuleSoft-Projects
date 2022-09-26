@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;flowreference-request-scope/src/main/mule/flowreference-request-scope.xml&apos; to &apos;flowreference-httprequest-scope.xml&apos;" description="Rename resource &apos;flowreference-request-scope.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/mule/flowreference-request-scope.xml" name="flowreference-httprequest-scope.xml" stamp="1660960457873" updateReferences="true"/>
+</session>

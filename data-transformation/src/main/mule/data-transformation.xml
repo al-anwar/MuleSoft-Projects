@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="ffa6d4e7-6828-4fbd-8b77-c4a80f94496d" >
+		<file:connection workingDir="C:\MyMuleSoftRepo\DataTransformation\output" />
+	</file:config>
+	<flow name="data-transformationFlow" doc:id="24a2fc82-64ea-46d4-86ed-d3b7043cf805" >
+		<file:listener doc:name="On New or Updated File" doc:id="aa7be0ad-5261-4f0d-81cc-631d2042b077" directory="C:\MyMuleSoftRepo\DataTransformation\input" autoDelete="true" moveToDirectory="C:\MyMuleSoftRepo\DataTransformation\backup" renameTo='#["backup-" ++ now() as String {format: "y-M-d-h-m-s"} ++ "-" ++ vars.fileName]' outputMimeType="application/xml">
+			<scheduling-strategy >
+				<fixed-frequency frequency="10" timeUnit="SECONDS" />
+			</scheduling-strategy>
+			<file:matcher filenamePattern="*.xml" />
+		</file:listener>
+		<set-variable value="#[attributes.fileName]" doc:name="fileName" doc:id="53d0a008-40ac-470a-9d3d-068efb5d5fa2" variableName="fileName"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="92fa9cf2-c81f-4ca3-8a20-9cd07ad1fee5" >
+			<route >
+				<flow-ref doc:name="to JSON" doc:id="3bfedfff-68ef-41cf-996c-b6cc09aa4038" name="to JSON subflow"/>
+			</route>
+			<route >
+				<flow-ref doc:name="to CSV" doc:id="eb5f7d9f-e373-4227-999a-0b9caef111f8" name="to CSV subflow"/>
+			</route>
+			<route >
+				<flow-ref doc:name="to XLSX" doc:id="c5ef2ec1-5e8b-466c-9c20-846bbedcc1fb" name="to XLSX subflow"/>
+			</route>
+		</scatter-gather>
+		<logger level="INFO" doc:name="Logger" doc:id="f00b4214-960d-462d-84fe-660e838f251a" />
+	</flow>
+	<sub-flow name="to JSON subflow" doc:id="3d7ebca6-0a71-4945-b380-cb51a7f6428c" >
+		<ee:transform doc:name="Transform Message" doc:id="8f528a46-865b-45c4-9643-d31d789fd46d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.DATA.*ROW]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:write doc:name="write to JSON" doc:id="75f29bf3-6683-49ba-b43c-908f95f739af" path="#[&quot;file-&quot; ++ now() as String {format: 'y-M-d-h-m-s'} ++ &quot;-&quot; ++ vars.fileName ++ &quot;.json&quot;]" config-ref="File_Config"/>
+	</sub-flow>
+	<sub-flow name="to CSV subflow" doc:id="37f3af3e-0745-4b1d-a398-f6b16861ab8a" >
+		<ee:transform doc:name="Transform Message" doc:id="d441c7ac-599c-41ae-984e-4f334ddff383" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/csv
+---
+payload.DATA.*ROW]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:write doc:name="write to CSV" doc:id="ea85e68d-e580-435e-86c6-ce4386c8bf7b" path="#[&quot;file-&quot; ++ now() as String {format: 'y-M-d-h-m-s'} ++ &quot;-&quot; ++ vars.fileName ++ &quot;.csv&quot;]" config-ref="File_Config"/>
+	</sub-flow>
+	<sub-flow name="to XLSX subflow" doc:id="d77ef798-f331-41c5-b471-c9dfeb92e390" >
+		<ee:transform doc:name="Transform Message" doc:id="cbacbc53-0d44-45bb-8b40-ac9af2168664" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xlsx
+---
+{
+	"sheet-1": payload.DATA.*ROW
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<file:write doc:name="write to XLSX" doc:id="72984563-b214-4ccf-b373-1909aea183d0" path="#[&quot;file-&quot; ++ now() as String {format: 'y-M-d-h-m-s'} ++ &quot;-&quot; ++ vars.fileName ++ &quot;.xlsx&quot;]" config-ref="File_Config"/>
+	</sub-flow>
+</mule>

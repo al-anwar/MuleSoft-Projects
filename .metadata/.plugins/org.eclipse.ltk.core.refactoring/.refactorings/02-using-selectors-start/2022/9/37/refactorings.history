@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;products.xml&apos; to &apos;dataweave-topics/src/main/resources/examples&apos;&#x0D;&#x0A;- Original project: &apos;02-using-selectors-start&apos;&#x0D;&#x0A;- Destination element: &apos;dataweave-topics/src/main/resources/examples&apos;&#x0D;&#x0A;- Original element: &apos;products.xml&apos;" description="Copy file" destination="=dataweave-topics/src\/main\/resources&lt;examples" element1="src/main/resources/examples/products.xml" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1662677961569" units="0" version="1.0"/>
+</session>

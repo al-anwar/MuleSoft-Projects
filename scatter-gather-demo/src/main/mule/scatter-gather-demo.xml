@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c06bc0dc-de2f-4c51-9155-3adfc759add0" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="scatter-gather-demoFlow" doc:id="1a92f0d5-fb70-4b00-93fc-99fbb96c7448" >
+		<http:listener doc:name="Listener" doc:id="0b75d58d-ee12-4076-a133-39c8707e3f64" config-ref="HTTP_Listener_config" path="/scattergather"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="fa0527d4-d994-4aaf-9d36-f29324a86c9e" >
+			<route >
+				<flow-ref doc:name="childFlow1" doc:id="d9a7da4c-89e3-4ca0-a597-a1ef492eeba8" name="childFlow1"/>
+			</route>
+			<route >
+				<flow-ref doc:name="childFlow2" doc:id="3403a9c8-0992-49f0-b734-0e6ffdf7160b" name="childFlow2"/>
+			</route>
+		</scatter-gather>
+		<logger level="INFO" doc:name="Logger" doc:id="ff4036ea-f5b3-4eee-ad0f-e42a601bce2e" message="#[payload]"/>
+		<ee:transform doc:name="Transform Message" doc:id="833e819e-4dca-4ece-9391-842030eca1ca" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+flatten(payload..payload)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="childFlow1" doc:id="b3b4d70c-cc23-4507-8fd7-003173fc3038" >
+		<file:read doc:name="ReadHRFile" doc:id="70a50b68-895d-41ba-8fa3-27c3efee24b1" path="C:\MyMuleSoftRepo\ScatterGather\HR.json"/>
+		<ee:transform doc:name="Transform Message" doc:id="7914fd0b-6eaa-4a48-b8e7-a710c02be699" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="childFlow2" doc:id="0f24e2de-4789-4e82-b7ae-2b1baed6e75b" >
+		<file:read doc:name="ReadITFile" doc:id="d359a98c-3e62-41d9-bca6-2c29301bc9d9" path="C:\MyMuleSoftRepo\ScatterGather\IT.json"/>
+		<ee:transform doc:name="Transform Message" doc:id="4c8fa246-8105-4e74-b4d4-61fe0a73e294" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
